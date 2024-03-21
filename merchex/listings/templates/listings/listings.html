@@ -1,0 +1,25 @@
+<html>
+	<head><title>Listings</title></head>
+	<body>
+		<h1>Coucou les aminches</h1>
+		<p>Voici le fameux listings :</p>
+		<ul>
+			{% for title in titles %}
+			<li>{{ titles.name|upper }}</li>
+			{% endfor %}
+			<p>
+				J'ai 
+				{% if titles|length < 1 %}
+					peu
+				{% elif titles|length < 2 %}
+					quelque
+				{% elif titles|length < 3 %}
+					ca va imo
+				{% else %}
+					trop
+				{% endif %}
+				de titre issou.
+			</p>
+		</ul>
+	</body>
+	</html>
