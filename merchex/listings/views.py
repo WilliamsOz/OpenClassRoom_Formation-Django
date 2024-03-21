@@ -1,6 +1,4 @@
-from django.http import HttpResponse
-from listings.models import Band
-from listings.models import Title
+from listings.models import Band, Title
 from django.shortcuts import render
 
 def	hello(request):
@@ -15,4 +13,4 @@ def	about(request):
 	return render(request, 'about.html')
 
 def	contact(request):
-	return render(request, 'about.html')
+	return render(request, 'contact.html')
