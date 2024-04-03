@@ -18,9 +18,12 @@ from django.contrib import admin
 from django.urls import path
 from listings import views
 
+handler404 = 'listings.views.handler404'
+
 urlpatterns = [
 	path('admin/', admin.site.urls),
-	path('hello/', views.hello),
+	path('bands/', views.band_list, name='band-list'),
+	path('bands/<int:band_id>/', views.band_detail, name='band-detail'), # ajouter ce motif sous notre autre motif de groupes
 	path('about-us/', views.about),
 	path('listings/', views.listings),
 	path('contact-us/', views.contact),
