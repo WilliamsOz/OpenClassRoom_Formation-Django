@@ -1,5 +1,3 @@
-# listings/templates/listings/band_detail.html
-
 {% extends 'listings/base.html' %}
 
 {% block content %}
@@ -7,12 +5,18 @@
 <h2>{{ band.name }}</h2>
 
 <ul>
-	<li>Genre : {{ band.get_genre_display }}</li> <li>Année de formation : {{ band.year_formed }}</li>
-	<li>Actif : {{ band.active |yesno }}</li>
+	<li>Genre : {{ band.get_genre_display }}</li>
+	<li>Année de formation : {{ band.year_formed }}</li>
+	<li>Actif : {{ band.active|yesno }}</li>
 	{% if band.official_homepage %}
 	<li><a href="{{ band.official_homepage }}">{{ band.official_homepage }}</a></li>
 	{% endif %}
 	<li>{{ band.official_homepage }}</li>
+	{% for listing in band.listing_set.all %}
+		<li>
+			<a href="{% url 'listing-detail' listing.id %}">{{ listing.name }}</a>
+		</li>
+	{% endfor %}
 </ul>
 
 <p>{{ band.biography }}</p>
