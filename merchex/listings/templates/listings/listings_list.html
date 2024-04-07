@@ -4,10 +4,14 @@
 
 <h1>Annonces</h1>
 
+<a href="{% url 'listing-add' %}">Créer une nouvelle annonce</a>
+
 <ul>
 	{% for listing in listings %}
 		<li>
 			<a href="{% url 'listing-detail' listing.id %}">{{ listing.name }}</a>
+			<a href="{% url 'listing-update' listing.id %}">[modifier]</a>
+			<a href="{% url 'listing-delete' listing.id %}">[supprimer]</a>
 		</li>
 	{% endfor %}
 </ul>

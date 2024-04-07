@@ -1,6 +1,6 @@
 from listings.models import Band, Listing
 from django.shortcuts import render, get_object_or_404, redirect
-from listings.form import ContactUsForm
+from listings.forms import ContactUsForm, BandForm, ListingForm
 from django.core.mail import send_mail
 
 def	band_list(request):
@@ -51,3 +51,86 @@ def contact(request):
 		form = ContactUsForm()
 
 	return render(request, 'listings/contact.html', {'form': form})
+
+def band_add(request):
+	if request.method == 'POST':
+		form = BandForm(request.POST)
+		if form.is_valid():
+			# créer une nouvelle « Band » et la sauvegarder dans la db
+			band = form.save()
+			# redirige vers la page de détail du groupe que nous venons de créer
+			# nous pouvons fournir les arguments du motif url comme arguments à la fonction de redirection
+			return redirect('band-detail', band.id)
+
+	else:
+		form = BandForm()
+
+	return render(request, 'listings/band_add.html', {'form': form})
+
+def listing_add(request):
+	if request.method == 'POST':
+		form = ListingForm(request.POST)
+		if form.is_valid():
+			listing = form.save()
+			return redirect('listing-detail', listing.id)
+
+	else:
+		form = ListingForm()
+
+	return render(request, 'listings/listing_add.html', {'form': form})
+
+def band_update(request, id):
+	band = Band.objects.get(id=id)
+
+	if request.method == 'POST':
+		form = BandForm(request.POST, instance=band)
+		if form.is_valid():
+			# mettre à jour le groupe existant dans la base de données
+			form.save()
+			# rediriger vers la page détaillée du groupe que nous venons de mettre à jour
+			return redirect('band-detail', band.id)
+	else:
+		form = BandForm(instance=band)
+
+	return render(request, 'listings/band_update.html', {'form': form})
+
+def listing_update(request, id):
+	listing = Listing.objects.get(id=id)
+
+	if request.method == 'POST':
+		form = ListingForm(request.POST, instance=listing)
+		if form.is_valid():
+			# mettre à jour le groupe existant dans la base de données
+			form.save()
+			# rediriger vers la page détaillée du groupe que nous venons de mettre à jour
+			return redirect('listing-detail', listing.id)
+	else:
+		form = ListingForm(instance=listing)
+
+	return render(request, 'listings/band_update.html', {'form': form})
+
+def band_delete(request, id):
+	band = Band.objects.get(id=id)  # nécessaire pour GET et pour POST
+
+	if request.method == 'POST':
+		# supprimer le groupe de la base de données
+		band.delete()
+		# rediriger vers la liste des groupes
+		return redirect('band-list')
+
+	# pas besoin de « else » ici. Si c'est une demande GET, continuez simplement
+
+	return render(request, 'listings/band_delete.html', {'band': band})
+
+def listing_delete(request, id):
+	listing = Listing.objects.get(id=id)  # nécessaire pour GET et pour POST
+
+	if request.method == 'POST':
+		# supprimer le groupe de la base de données
+		listing.delete()
+		# rediriger vers la liste des groupes
+		return redirect('listing-list')
+
+	# pas besoin de « else » ici. Si c'est une demande GET, continuez simplement
+
+	return render(request, 'listings/listing_delete.html', {'listing': listing})

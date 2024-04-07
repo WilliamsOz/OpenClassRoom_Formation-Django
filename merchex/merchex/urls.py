@@ -29,4 +29,10 @@ urlpatterns = [
 	path('about-us/', views.about, name='about'),
 	path('contact-us/', views.contact, name='contact'),
 	path('contact-us/email-sent/', views.email_sent),
+	path('bands/add/', views.band_add, name='band-add'),
+	path('listings/add/', views.listing_add, name='listing-add'),
+	path('bands/<int:id>/change/', views.band_update, name='band-update'),
+	path('listings/<int:id>/change/', views.listing_update, name='listing-update'),
+	path('bands/<int:id>/delete/', views.band_delete, name='band-delete'),
+	path('listings/<int:id>/delete/', views.listing_delete, name='listing-delete'),
 ]
